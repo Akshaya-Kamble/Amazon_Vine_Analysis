@@ -96,10 +96,14 @@ There are 34 Vine reviews which are 5 stars and 8212 non-Vine reviews which are 
 #### 3. What percentage of Vine reviews were 5 stars? What percentage of non-Vine reviews were 5 stars?
 56.66 % of Vine reviews are 5 stars and 56.72 % percentage of non-Vine reviews are 5 stars.
 
-Below are snapshots for the code.
+### Summary: 
+The number of unpaid vine reviews are more than the paid reviews. But if look at the percent of positive reviews it is similar for both, that is 56.66% for five star paid reviews and 56.72% for the five star unpaid reviews.We can conclude that there is a positivity bias in both cases as the number of five star reviews are above 50%.Below are snapshots for the code.
 
 ![Results for paid Vine program](https://github.com/Akshaya-Kamble/Amazon_Vine_Analysis/blob/main/Refrence%20images/paid.PNG)
 
 ![Results for unpaid Vine program](https://github.com/Akshaya-Kamble/Amazon_Vine_Analysis/blob/main/Refrence%20images/unpaid.PNG)
 
-### Summary: 
+With the similar calculations we can check the percentage of four star reviews for both paid and unpaid reviews.The below screen shot prooves that the number of four star reviews would increase the positivity bias and therefore confirms that the overall reviews are positive.
+
+
+
