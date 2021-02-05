@@ -12,32 +12,43 @@ Amazon Web Services - S3 and RDS
 ### Deliverable 1: Perform ETL on Amazon Product Reviews
 For this deliverable we have selected the musical instruments reviews dataset from the Amazon Review datasets.
 ```https://s3.amazonaws.com/amazon-reviews-pds/tsv/amazon_reviews_us_Musical_Instruments_v1_00.tsv.gz```
+
 Using PySpark we will extract the dataset into a DataFrame,transform the DataFrame into four separate DataFrames that match the table schema in pgAdmin and finally upload the transformed data into the appropriate tables and run queries in pgAdmin to confirm that the data has been uploaded.
 
 #### A. Using the provided schema we have created four tables in the pgAdmin named customers_table, products_table, review_id_table, and vine_table.Below are the details how the data is collected in these tables using PYSpark.
+
 #### 1. customers_table
 In this table we will have a count of customer_id and we will get the output using groupby() and agg() functions.
-``` customers_df = df.groupby("customer_id").agg({"customer_id":"count"}).withColumnRenamed("count(customer_id)", "customer_count")
-customers_df.show(20) ```
-![]() 
+
+
+customers_df = df.groupby("customer_id").agg({"customer_id":"count"}).withColumnRenamed("count(customer_id)", "customer_count")
+customers_df.show(20) 
+
+![](https://github.com/Akshaya-Kamble/Amazon_Vine_Analysis/blob/main/Refrence%20images/customers_df.PNG) 
 
 #### 2. products_table
 In this table we will have the unique product_ids and the product_title buy using the drop_duplicates()
-```products_df = df.select(["product_id","product_title"]).drop_duplicates()
-products_df.show(20)```
-![]() 
+
+products_df = df.select(["product_id","product_title"]).drop_duplicates()
+products_df.show(20)
+
+![](https://github.com/Akshaya-Kamble/Amazon_Vine_Analysis/blob/main/Refrence%20images/products_df.PNG) 
 
 #### 3. review_id_table
 In this table we will have columns like the pgAdmin schema and we will also convert the review_date column to date using the below code.
-``` review_id_df = df.select(["review_id","customer_id","product_id","product_parent", to_date("review_date", 'yyyy-MM-dd').alias("review_date")])
-review_id_df.show(20)```
-![]() 
+
+review_id_df = df.select(["review_id","customer_id","product_id","product_parent", to_date("review_date", 'yyyy-MM-dd').alias("review_date")])
+review_id_df.show(20)
+
+![](https://github.com/Akshaya-Kamble/Amazon_Vine_Analysis/blob/main/Refrence%20images/review_id_df.PNG) 
 
 #### 4.vine_table
 In this table we will have all the columns like the pgAdmin schema.
-```vine_df = df.select(['review_id',"star_rating","helpful_votes","total_votes","vine","verified_purchase"])
-vine_df.show(20)```
-![]() 
+
+vine_df = df.select(['review_id',"star_rating","helpful_votes","total_votes","vine","verified_purchase"])
+vine_df.show(20)
+
+![](https://github.com/Akshaya-Kamble/Amazon_Vine_Analysis/blob/main/Refrence%20images/vine_df.PNG) 
 
 #### B. Using PySpark we will Connect to the AWS RDS instance and write each of the above created DataFrames to its corresponding tables in pgAdmin.
 
@@ -56,6 +67,14 @@ vine_df.write.jdbc(url=jdbc_url, table='vine_table', mode=mode, properties=confi
 ```
 
 After the data is sent to the tables, we can query and check the data in all the tables.Below are the screen shots from pgAdmin.
+
+![](https://github.com/Akshaya-Kamble/Amazon_Vine_Analysis/blob/main/Refrence%20images/customers_table.PNG)
+
+![](https://github.com/Akshaya-Kamble/Amazon_Vine_Analysis/blob/main/Refrence%20images/products_table.PNG)
+
+![](https://github.com/Akshaya-Kamble/Amazon_Vine_Analysis/blob/main/Refrence%20images/review_id_table.PNG)
+
+![](https://github.com/Akshaya-Kamble/Amazon_Vine_Analysis/blob/main/Refrence%20images/vine_table.PNG)
 
 ### Deliverable 2: Determine Bias of Vine Reviews
 #### A. In this deliverable using PySpark we will sort and filter data from the AWS dataset to get the required dataframes by performing some calculations. 
@@ -77,8 +96,14 @@ There are 34 Vine reviews which are 5 stars and 8212 non-Vine reviews which are 
 #### 3. What percentage of Vine reviews were 5 stars? What percentage of non-Vine reviews were 5 stars?
 56.66 % of Vine reviews are 5 stars and 56.72 % percentage of non-Vine reviews are 5 stars.
 
-Below are snapshots for the code.
-![]()
-![]()
-
 ### Summary: 
+The number of unpaid vine reviews are more than the paid reviews. But if look at the percent of positive reviews it is similar for both, that is 56.66% for five star paid reviews and 56.72% for the five star unpaid reviews.We can conclude that there is a positivity bias in both cases as the number of five star reviews are above 50%.Below are snapshots for the code.
+
+![Results for paid Vine program](https://github.com/Akshaya-Kamble/Amazon_Vine_Analysis/blob/main/Refrence%20images/paid.PNG)
+
+![Results for unpaid Vine program](https://github.com/Akshaya-Kamble/Amazon_Vine_Analysis/blob/main/Refrence%20images/unpaid.PNG)
+
+With the similar calculations we can check the percentage of four star reviews for both paid and unpaid reviews.The below screen shot prooves that the number of four star reviews would increase the positivity bias and therefore confirms that the overall reviews are positive.
+
+
+
