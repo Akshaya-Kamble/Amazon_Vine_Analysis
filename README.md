@@ -4,9 +4,7 @@ This project is about analyzing Amazon reviews written by members of the paid Am
 The dataset selected for this project is about musical instruments.For the analysis we will use PySpark to perform the ETL process to extract the dataset, transform the data, connect to an AWS RDS instance, and load the transformed data into pgAdmin.Next using PySpark we can determine if there is any bias towards favorable reviews from Vine members in the dataset.
 
 The following versions of softwares are used
-PySpark spark-3.0.1
-PgAdmin 4.24
-Amazon Web Services - S3 and RDS
+PySpark spark-3.0.1, PgAdmin 4.24, Amazon Web Services - S3 and RDS
 
 ## Results:
 ### Deliverable 1: Perform ETL on Amazon Product Reviews
@@ -15,7 +13,7 @@ For this deliverable we have selected the musical instruments reviews dataset fr
 
 Using PySpark we will extract the dataset into a DataFrame,transform the DataFrame into four separate DataFrames that match the table schema in pgAdmin and finally upload the transformed data into the appropriate tables and run queries in pgAdmin to confirm that the data has been uploaded.
 
-#### A. Using the provided schema we have created four tables in the pgAdmin named customers_table, products_table, review_id_table, and vine_table.Below are the details how the data is collected in these tables using PYSpark.
+#### A. Using the provided schema we have created four tables in the pgAdmin named customers_table, products_table, review_id_table, and vine_table.Using PYSpark we have collected data from the amazon reviews and stored into these tables in pdAdmin.The code is available in the file named Amazon_Reviews_ETL.ipynb
 
 #### 1. customers_table
 In this table we will have a count of customer_id and we will get the output using groupby() and agg() functions.
@@ -90,7 +88,8 @@ After the data is sent to the tables, we can query and check the data in all the
 ![](https://github.com/Akshaya-Kamble/Amazon_Vine_Analysis/blob/main/Refrence%20images/vine_table.PNG)
 
 ### Deliverable 2: Determine Bias of Vine Reviews
-#### A. In this deliverable using PySpark we will sort and filter data from the AWS dataset to get the required dataframes by performing some calculations. 
+#### A. In this deliverable using PySpark we will sort and filter data from the AWS dataset to get the required dataframes by performing some calculations.The below tables are available in the Vine_Review_Analysis.ipynb file
+
 1. vine_df : This dataframe contains all the schema as required in pgAdmin table.
 2. vote_count_df : This dataframe has total_votes count equal to or greater than 20
 3. voting_percent_df : This dataframe has the number of helpful_votes divided by total_votes equal to or greater than 50%.
@@ -110,13 +109,13 @@ There are 34 Vine reviews which are 5 stars and 8212 non-Vine reviews which are 
 56.66 % of Vine reviews are 5 stars and 56.72 % percentage of non-Vine reviews are 5 stars.
 
 ### Summary: 
-The number of unpaid vine reviews are more than the paid reviews. But if look at the percent of positive reviews it is similar for both, that is 56.66% for five star paid reviews and 56.72% for the five star unpaid reviews.We can conclude that there is a positivity bias in both cases as the number of five star reviews are above 50%.Below are snapshots for the code.
+The number of unpaid vine reviews are more than the paid reviews. But if look at the percent of positive reviews it is similar for both, that is 56.66% for five star paid reviews and 56.72% for the five star unpaid reviews.We can conclude that there is no positivity bias in both cases and we can confirm this by looking at the the results below that were calculated in the Vine_Review_Analysis.ipynb file.
 
 ![Results for paid Vine program](https://github.com/Akshaya-Kamble/Amazon_Vine_Analysis/blob/main/Refrence%20images/paid.PNG)
 
 ![Results for unpaid Vine program](https://github.com/Akshaya-Kamble/Amazon_Vine_Analysis/blob/main/Refrence%20images/unpaid.PNG)
 
-With the similar calculations we can check the percentage of four star reviews for both paid and unpaid reviews.The below screen shot prooves that the number of four star reviews would increase the positivity bias and therefore confirms that the overall reviews are positive.
+With the similar calculations we can check the percentage of four star reviews for both paid and unpaid reviews.Further after calculating the percentages we can see that the paid four star reviews are 26% and while the unpaid four star reviews are 18%. When we add the total of four stars and five stars reviews, there is not much difference and hence we can conclude that there is no positivity bias.
 
 ![](https://github.com/Akshaya-Kamble/Amazon_Vine_Analysis/blob/main/Refrence%20images/four%20star.PNG)
 
