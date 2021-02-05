@@ -21,47 +21,60 @@ Using PySpark we will extract the dataset into a DataFrame,transform the DataFra
 In this table we will have a count of customer_id and we will get the output using groupby() and agg() functions.
 
 
+```
 customers_df = df.groupby("customer_id").agg({"customer_id":"count"}).withColumnRenamed("count(customer_id)", "customer_count")
-customers_df.show(20) 
+customers_df.show(20)
+``` 
 
 ![](https://github.com/Akshaya-Kamble/Amazon_Vine_Analysis/blob/main/Refrence%20images/customers_df.PNG) 
 
 #### 2. products_table
 In this table we will have the unique product_ids and the product_title buy using the drop_duplicates()
 
+```
 products_df = df.select(["product_id","product_title"]).drop_duplicates()
 products_df.show(20)
+```
 
 ![](https://github.com/Akshaya-Kamble/Amazon_Vine_Analysis/blob/main/Refrence%20images/products_df.PNG) 
 
 #### 3. review_id_table
 In this table we will have columns like the pgAdmin schema and we will also convert the review_date column to date using the below code.
 
+```
 review_id_df = df.select(["review_id","customer_id","product_id","product_parent", to_date("review_date", 'yyyy-MM-dd').alias("review_date")])
 review_id_df.show(20)
+```
 
 ![](https://github.com/Akshaya-Kamble/Amazon_Vine_Analysis/blob/main/Refrence%20images/review_id_df.PNG) 
 
 #### 4.vine_table
 In this table we will have all the columns like the pgAdmin schema.
 
+```
 vine_df = df.select(['review_id',"star_rating","helpful_votes","total_votes","vine","verified_purchase"])
 vine_df.show(20)
+```
 
 ![](https://github.com/Akshaya-Kamble/Amazon_Vine_Analysis/blob/main/Refrence%20images/vine_df.PNG) 
 
 #### B. Using PySpark we will Connect to the AWS RDS instance and write each of the above created DataFrames to its corresponding tables in pgAdmin.
 
 Configure settings for AWS RDS
-```mode = "append"
+
+```
+mode = "append"
 jdbc_url="jdbc:postgresql://awschallenge.cw3ezyluysbs.us-east-2.rds.amazonaws.com:5432/Challenge"
 config = {"user":"postgres", 
           "password": "Newme2020", 
-          "driver":"org.postgresql.Driver"}```
+          "driver":"org.postgresql.Driver"}
+```
 
 Write all the four tables to pgAdmin using the below code.
-```review_id_df.write.jdbc(url=jdbc_url, table='review_id_table', mode=mode, properties=config)
-   products_df.write.jdbc(url=jdbc_url, table='products_table', mode=mode, properties=config)
+
+```
+review_id_df.write.jdbc(url=jdbc_url, table='review_id_table', mode=mode, properties=config)
+products_df.write.jdbc(url=jdbc_url, table='products_table', mode=mode, properties=config)
 customers_df.write.jdbc(url=jdbc_url, table='customers_table', mode=mode, properties=config)
 vine_df.write.jdbc(url=jdbc_url, table='vine_table', mode=mode, properties=config)
 ```
@@ -105,5 +118,5 @@ The number of unpaid vine reviews are more than the paid reviews. But if look at
 
 With the similar calculations we can check the percentage of four star reviews for both paid and unpaid reviews.The below screen shot prooves that the number of four star reviews would increase the positivity bias and therefore confirms that the overall reviews are positive.
 
-
+![](https://github.com/Akshaya-Kamble/Amazon_Vine_Analysis/blob/main/Refrence%20images/four%20star.PNG)
 
