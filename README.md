@@ -31,6 +31,7 @@ In this table we will have the unique product_ids and the product_title buy usin
 
 products_df = df.select(["product_id","product_title"]).drop_duplicates()
 products_df.show(20)
+
 ![](https://github.com/Akshaya-Kamble/Amazon_Vine_Analysis/blob/main/Refrence%20images/products_df.PNG) 
 
 #### 3. review_id_table
@@ -38,6 +39,7 @@ In this table we will have columns like the pgAdmin schema and we will also conv
 
 review_id_df = df.select(["review_id","customer_id","product_id","product_parent", to_date("review_date", 'yyyy-MM-dd').alias("review_date")])
 review_id_df.show(20)
+
 ![](https://github.com/Akshaya-Kamble/Amazon_Vine_Analysis/blob/main/Refrence%20images/review_id_df.PNG) 
 
 #### 4.vine_table
@@ -45,6 +47,7 @@ In this table we will have all the columns like the pgAdmin schema.
 
 vine_df = df.select(['review_id',"star_rating","helpful_votes","total_votes","vine","verified_purchase"])
 vine_df.show(20)
+
 ![](https://github.com/Akshaya-Kamble/Amazon_Vine_Analysis/blob/main/Refrence%20images/vine_df.PNG) 
 
 #### B. Using PySpark we will Connect to the AWS RDS instance and write each of the above created DataFrames to its corresponding tables in pgAdmin.
@@ -64,9 +67,13 @@ vine_df.write.jdbc(url=jdbc_url, table='vine_table', mode=mode, properties=confi
 ```
 
 After the data is sent to the tables, we can query and check the data in all the tables.Below are the screen shots from pgAdmin.
+
 ![](https://github.com/Akshaya-Kamble/Amazon_Vine_Analysis/blob/main/Refrence%20images/customers_table.PNG)
+
 ![](https://github.com/Akshaya-Kamble/Amazon_Vine_Analysis/blob/main/Refrence%20images/products_table.PNG)
+
 ![](https://github.com/Akshaya-Kamble/Amazon_Vine_Analysis/blob/main/Refrence%20images/review_id_table.PNG)
+
 ![](https://github.com/Akshaya-Kamble/Amazon_Vine_Analysis/blob/main/Refrence%20images/vine_table.PNG)
 
 ### Deliverable 2: Determine Bias of Vine Reviews
@@ -90,7 +97,9 @@ There are 34 Vine reviews which are 5 stars and 8212 non-Vine reviews which are 
 56.66 % of Vine reviews are 5 stars and 56.72 % percentage of non-Vine reviews are 5 stars.
 
 Below are snapshots for the code.
+
 ![Results for paid Vine program](https://github.com/Akshaya-Kamble/Amazon_Vine_Analysis/blob/main/Refrence%20images/paid.PNG)
+
 ![Results for unpaid Vine program](https://github.com/Akshaya-Kamble/Amazon_Vine_Analysis/blob/main/Refrence%20images/unpaid.PNG)
 
 ### Summary: 
